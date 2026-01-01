@@ -74,3 +74,18 @@ Todos os relatórios são baseados em **consultas SQL otimizadas**, utilizando `
   - Consultas analíticas para relatórios gerenciais
 
 
+## Aprendizados com o Projeto
+
+- Modelagem avançada de banco de dados relacional
+- Implementação de regras de negócio reais
+- Criação de relatórios gerenciais via SQL
+- Integração entre frontend e backend via API REST
+- Uso do FastAPI em conjunto com SQL Server
+- Organização de projeto full stack
+
+
+## Autores
+
+**Gabriel Terres, Hikáro Lázaro, Pedro Henrique, Lara Miranda e Vinícius Guimarães**  
+Estudantes de Ciência da Computação na Universidade Vila Velha  
+Projeto acadêmico – Banco de Dados II
