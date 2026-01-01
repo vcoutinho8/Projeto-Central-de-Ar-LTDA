@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+   <link
+      rel="icon"
+      href="https://cdn-icons-png.flaticon.com/512/1684/1684375.png"
+    />
+  <style>
+    body {
+      background: linear-gradient(to bottom, #0c2233 0%, #09202d 100%);
+      font-family: 'Inter', sans-serif;
+    }
+    .wave {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent 30%, rgba(255, 255, 255, 0.05) 100%);
+      clip-path: polygon(0 60%, 100% 20%, 100% 100%, 0% 100%);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen relative overflow-hidden">
+
+  <!-- Ondas decorativas -->
+  <div class="wave"></div>
+
+  <div class="text-center text-white w-full max-w-sm px-6 py-8 bg-[#0d2b3d]/50 rounded-2xl shadow-lg">
+    <!-- Logo simulada -->
+    <div class="flex justify-center mb-6">
+    </div>
+
+    <h2 class="text-2xl font-semibold mb-2">Central Ar</h2>
+    <p class="text-gray-300 mb-6 text-sm">
+      Faça o seu login e comece a administrar!
+    </p>
+
+    <form id="loginForm" class="flex flex-col space-y-4">
+      <input
+        type="text"
+        id="username"
+        placeholder="Email"
+        required
+        class="bg-[#0f364d] text-white border border-[#1a4b64] rounded-lg px-4 py-2 placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none"
+      />
+      <input
+        type="password"
+        id="password"
+        placeholder="Senha"
+        required
+        class="bg-[#0f364d] text-white border border-[#1a4b64] rounded-lg px-4 py-2 placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none"
+      />
+
+      <div class="flex items-center justify-between text-sm">
+        <label class="flex items-center text-gray-300">
+          <input type="checkbox" class="mr-2 rounded accent-green-500" /> Lembrar-me
+        </label>
+        <a href="#" class="text-green-400 hover:underline">Esqueceu a senha?</a>
+      </div>
+
+      <button
+        type="submit"
+        class="bg-green-500 hover:bg-green-600 transition text-white font-semibold py-2 rounded-lg shadow-md"
+      >
+        Entrar
+      </button>
+    </form>
+
+    <p id="result" class="mt-4 text-sm"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!username || !password) {
+        result.textContent = "❗ Preencha os campos de usuário e senha.";
+        result.className = "mt-4 text-sm text-red-400";
+        return;
+      }
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          result.textContent = `✅ Login bem-sucedido! Token: ${data.access_token}`;
+          result.className = "mt-4 text-sm text-green-400";
+          setTimeout(() => {
+            window.location.href = "./index.html";
+          }, 1000);
+        } else {
+          result.textContent = `❌ Erro: ${data.detail}`;
+          result.className = "mt-4 text-sm text-red-400";
+        }
+      } catch (err) {
+        result.textContent = `Erro de conexão: ${err.message}`;
+        result.className = "mt-4 text-sm text-red-400";
+      }
+    });
+  </script>
+</body>
+</html>
